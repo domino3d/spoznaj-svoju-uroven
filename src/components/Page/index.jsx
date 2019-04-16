@@ -6,13 +6,12 @@ import { API_URL } from '../../dependencies/constants';
 
 const Page = (props) => {
   const {content, bgImage} = props;
-  const fullPath = bgImage && `${API_URL}/images/0x0/${bgImage}`;
+  const fullPath = bgImage ? `${API_URL}/images/0x0/${bgImage}` : "/default.jpg";
   
   return(
     <div className="page">
       <div className="page_bgpicture" style={{backgroundImage: `url(${fullPath})`}} />
-      <div className="page_bgpage">
-      </div>
+      <div className="page_bgpage"></div>
         {content}
     </div>
   )

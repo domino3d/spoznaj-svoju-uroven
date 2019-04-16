@@ -24,8 +24,24 @@
     height: 150px;
     display: block;
     width: 100%;
+    
+    &_full {
+      height: 100%;
+      display: block;
+      width: 100%;
+      &_image{
+        border-radius: 5px 5px 5px 5px;
+        background-image: url(/default.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+  
+        height: 100%;
+      }
+    }
 
     &_image {
+      border-radius: 5px 5px 0 0;
       background-image: url(/default.jpg);
       background-size: cover;
       background-position: center;

@@ -13,20 +13,26 @@ class Card extends React.Component {
   }
 
   render() {
-    const { name, path, id } = this.props;
+    const { name, path, fullpath, id } = this.props;
     // const imgsrc = images(`url('/${path}.jpg')`);
     // const imgsrc = path ? `url('/${path}.jpg')` : null;
     // const imgsrc = !path ? `/default.jpg` : null;
 
     return (
-      <div className="card_content">
-        {path &&
-          <Image className="card_content_image" path={path} />}
-        <div className="card_content_text">
-          <h3>{name}</h3>
-          {/* <h4>6 fotiek</h4> */}
+      fullpath ? 
+        <div className="card_content_full">
+            <Image className="card_content_image" full path={fullpath} />
         </div>
-      </div>
+        :
+        <div className="card_content">
+          {path &&
+            <Image className="card_content_image" path={path} />}
+          <div className="card_content_text">
+            <h3>{name}</h3>
+            {/* <h4>6 fotiek</h4> */}
+          </div>
+        </div>
+        
     );
   }
 };

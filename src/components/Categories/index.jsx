@@ -8,6 +8,7 @@ import { Container, Grid, Row, Col } from 'react-flexbox-grid';
 import Card from '../Card';
 import { withRouter } from 'react-router-dom';
 import { API_URL } from '../../dependencies/constants';
+import { API_GALLERY_URL } from '../../dependencies/constants';
 
 
 const staticGallery = {
@@ -198,12 +199,16 @@ const staticGallery = {
 
 class Categories extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
+
     this.state = {
-        move: 0,
-        id: null,
-    }
+      // galleryData: this.props.galleryData,
+      data: this.props.data,
+      isLoading: this.props.isLoading,
+      move: 0,
+      id: null,
+    };
   }
 
   handleHover = (gallery,id) => {
@@ -212,7 +217,9 @@ class Categories extends React.Component {
       move:10,
       id:id
     })
-    setTimeout(() => {
+    setBGImage && setTimeout(() => {
+      // gallery && gallery.fullpath ? setBGImage(gallery.fullpath) : 
+      // gallery && gallery.image && gallery.image.fullpath && setBGImage(gallery.image.fullpath);
       gallery && gallery.image && gallery.image.fullpath && setBGImage(gallery.image.fullpath);
     }, 1000);
   }
@@ -221,7 +228,11 @@ class Categories extends React.Component {
   }
 
   handleClick = (path) => {
-    this.props.history.push(`/gallery/${path}`)
+    // const { handleClick } = this.props;
+    // handleClick && handleClick(path);
+
+    this.state.data && this.state.data.galleries && this.props.history.push(`/gallery/${path}`)
+    // TODO: this.state.data && this.state.data.images && openPICTURE
   }
 
   addGallery = () => {
@@ -230,47 +241,63 @@ class Categories extends React.Component {
 
   render(){
     const hoveredCardId = this.state.id;
+    const { data, isLoading, h1, h2, add} = this.props;
+    const cardData = data ? data.galleries ? data.galleries : data.images : null;
+
     return(
       <div className="categories">
         
-        <h1>FOTOGALÉRIA</h1>
-        <h2>KATEGÓRIE</h2>
+        <h1>{h1}</h1>
+        <div style={{display: "flex"}}>
+          {this.state.data && this.state.data.images && <span onClick={() => this.props.history.push(`/`)} style={{paddingTop: "25px", paddingRight: "17px"}}>back</span>} 
+          <h2>{h2}</h2>
+        </div>
         <hr/>
 
-        <Grid fluid className="categories_container">
-          <Row>
-            {staticGallery.galleries.map( (gallery, id) => 
+        { isLoading ?
+          <p className="loading">Loading ...</p>
+          : 
+          <Grid fluid className="categories_container">
+            <Row>
+              {cardData.map( (gallery, id) => 
+                <Col 
+                  className="card" xs={6} md={3} lg={2} key={id} 
+                  onClick={() => this.handleClick(gallery.path)}
+                  onMouseEnter={() => this.handleHover(gallery,id)}
+                  onMouseLeave={() => this.handleLeave(id)}
+                  style={{top: hoveredCardId==id ? -this.state.move : 0 + 'px'}} 
+                  >
+                    { this.state.data && this.state.data.images ?
+                      <Card
+                        fullpath = {gallery.fullpath && gallery.fullpath}
+                        id = {id}
+                      />
+                    :
+                      <Card
+                        name = {gallery.name && gallery.name}
+                        path = {gallery.image && gallery.image.fullpath && gallery.image.fullpath}
+                        id = {id}
+                      />
+                    }
+                </Col>
+              )}
+              
               <Col 
-                className="card" xs={6} md={3} lg={2} key={id} 
-                onClick={() => this.handleClick(gallery.path)}
-                onMouseEnter={() => this.handleHover(gallery,id)}
-                onMouseLeave={() => this.handleLeave(id)}
-                style={{top: hoveredCardId==id ? -this.state.move : 0 + 'px'}} 
+                className="card" xs={6} md={3} lg={2}
+                onClick={() => this.addGallery()}
+                onMouseEnter={() => this.handleHover(null,-1)}
+                onMouseLeave={() => this.handleLeave(-1)}
+                style={{top: hoveredCardId==-1 ? -this.state.move : 0 + 'px'}} 
                 >
                   <Card
-                    name = {gallery.name && gallery.name}
-                    path = {gallery.image && gallery.image.fullpath && gallery.image.fullpath}
-                    id = {id}
+                    name = {add}
+                    path = {null}
+                    id = {null}
                   />
               </Col>
-            )}
-            
-            <Col 
-              className="card" xs={6} md={3} lg={2}
-              onClick={() => this.addGallery()}
-              onMouseEnter={() => this.handleHover(null,-1)}
-              onMouseLeave={() => this.handleLeave(-1)}
-              style={{top: hoveredCardId==-1 ? -this.state.move : 0 + 'px'}} 
-              >
-                <Card
-                  name = "PRIDAT KATEGORIU"
-                  path = {null}
-                  id = {null}
-                />
-            </Col>
-          </Row>
-        </Grid>
-
+            </Row>
+          </Grid>
+        }
       </div>
     );
   }
