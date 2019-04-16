@@ -1,10 +1,11 @@
 const Colors = {
+    gray: '#555555',
+    grayLight: '#aaaaaa',
+    
     atramentDark: '#152630',
     atrament: '#1e3b4d',
     brownishDark: '#2c2d2f',
     brownish: '#414043',
-    gray: '#a2a2a2',
-    grayLight: '#efefef',
     blueDark: '#0a72a3',
     blue: '#11a9d4',
     green: '#00bea1',

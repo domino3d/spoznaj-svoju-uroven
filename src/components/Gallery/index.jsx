@@ -1,15 +1,20 @@
 import React from 'react';
-import Background from '../Background';
 // style
 import './gallery.scss';
 
-const Gallery = () => (
-  <div className="gallery">
-    <Background />
-    <h3 className="gallery_title">
-      gallery
-    </h3>
-  </div>
-);
+
+class Gallery extends React.Component {
+  // this.props.match.params.path
+  render(){
+    
+    return (
+      <div className="gallery">
+        <h3 className="gallery_title">
+          gallery: {this.props.match.params.path}
+        </h3>
+      </div>
+      )
+    };
+  }
 
 export default Gallery;

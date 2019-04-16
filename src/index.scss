@@ -1,0 +1,40 @@
+@import './dependencies/variables.scss';
+
+$font-stack:    "Roboto", sans-serif;
+$primary-color: #000;
+$font-size-big : 16pt;
+$font-size-huge : 24pt;
+
+
+body {
+  // font: 100% $font-stack;
+  font: $font-stack;
+  color: $primary-color;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  size: $font-size-huge;
+  color:  $white;
+  font-weight: normal;
+}
+h2 {
+  size: $font-size-big;
+  color:  $white;
+  font-weight: normal;
+}
+h3 {
+  size: $font-size-big;
+  color:  $gray;
+  font-weight: normal;
+}
+h4 {
+  size: $font-size-big;
+  color:  $gray-light;
+  font-weight: normal;
+}

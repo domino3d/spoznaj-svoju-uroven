@@ -5,14 +5,37 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ErrorPage from './ErrorPage';
 import Categories from './Categories';
 import Gallery from './Gallery';
+import Page from './Page';
+import API_URL from '../dependencies/constants';
 
 class App extends Component {
+  state = {
+    bgImage: null
+  }
+  
+  // TODO: fetch data
+  // https://www.robinwieruch.de/react-fetching-data/#react-how-fetch-data
+
+  setBGImage = (img) => {
+    this.setState({ bgImage: img });
+  }
+
   render() {
+    const bgImage = this.state.bgImage;
+
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={Categories}/>
-          <Route path="/gallery" component={Gallery}/>
+          <Route 
+            exact
+            path="/" 
+            component={() => <Page bgImage={bgImage}  
+              content={<Categories setBGImage={this.setBGImage}/>} />}
+          />
+          <Route 
+            path="/gallery/:path" 
+            component={props => <Gallery {...props} />} />
+            {/* component={() => <Gallery />} /> */}
           {/* <Route path="/:user" component={User}/> */}
           {/* <Route component={NoMatch}/> */}
           <Route component={()=>{
@@ -27,24 +50,6 @@ class App extends Component {
           }/>
         </Switch>
       </Router>
-
-
-      // <div className="App">
-      //   <header className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //     <p>
-      //       Edit <code>src/App.js</code> and save to reload.
-      //     </p>
-      //     <a
-      //       className="App-link"
-      //       href="https://reactjs.org"
-      //       target="_blank"
-      //       rel="noopener noreferrer"
-      //     >
-      //       Learn React
-      //     </a>
-      //   </header>
-      // </div>
     );
   }
 }
