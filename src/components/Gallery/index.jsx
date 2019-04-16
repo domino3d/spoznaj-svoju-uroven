@@ -1,11 +1,10 @@
 import React from 'react';
 // style
 import './gallery.scss';
-import { withRouter } from 'react-router-dom';
 import Categories from '../Categories';
 import Page from '../Page';
-import { API_URL } from '../../dependencies/constants';
 import { API_GALLERY_URL } from '../../dependencies/constants';
+import ErrorPage from '../ErrorPage';
 
 class Gallery extends React.Component {
   // this.props.match.params.path
@@ -14,6 +13,7 @@ class Gallery extends React.Component {
 
     this.state = {
       data: null,
+      error: null,
       isLoading: true,
       path: this.props.match.params.path,
     };
@@ -25,7 +25,7 @@ class Gallery extends React.Component {
     fetch(API_GALLERY_URL+"/"+this.state.path)
       .then(response => response.json())
       .then(data => {
-        console.log(">>>suc",data);
+        // console.log(">>>suc",data);
         this.setState({ data: data, isLoading: false })
       }
         )
@@ -37,8 +37,13 @@ class Gallery extends React.Component {
 }
   
   render(){
-    console.log("img:", this.state.data)
-    console.log("isLoading:", this.state.isLoading)
+    if (this.state.error) {
+      return <ErrorPage
+        code={500}
+        title="Error"
+        description={this.state.error.message}
+      />
+    }
     return (
       <div className="gallery">
           { this.state.isLoading ?

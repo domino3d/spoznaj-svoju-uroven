@@ -6,7 +6,7 @@ import ErrorPage from './ErrorPage';
 import Categories from './Categories';
 import Gallery from './Gallery';
 import Page from './Page';
-import { API_URL, API_IMAGES_DEFAULT_SIZE_URL, API_GALLERY_URL } from '../dependencies/constants';
+import { API_GALLERY_URL } from '../dependencies/constants';
 
 class App extends Component {
   
@@ -17,27 +17,22 @@ class App extends Component {
       data: null,
       isLoading: true,
       bgImage: null,
+      error: null,
     };
   }
   
-  // state = {
-  //   bgImage: null
-  // }
-  
-  // TODO: fetch data
-  // https://www.robinwieruch.de/react-fetching-data/#react-how-fetch-data
   componentDidMount() {
     this.setState({ isLoading: true });
 
     fetch(API_GALLERY_URL)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         this.setState({ data: data, isLoading: false })
       }
         )
       .catch(error => {
-        console.log(error);
+        // console.log(error);
         this.setState({ error, isLoading: false })
       }
       );
@@ -47,27 +42,7 @@ class App extends Component {
     this.setState({ bgImage: img });
   }
 
-  // getImages = (path) => {
-  //   // this.setState({ isImagesLoading: true });
-
-  //   // fetch(API_IMAGES_DEFAULT_SIZE_URL+path)
-  //   fetch(API_GALLERY_URL+"/"+path)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(">>>suc",data);
-  //       this.setState({ data: data, isImagesLoading: false })
-  //     }
-  //       )
-  //     .catch(error => {
-  //       console.log(">>>err",error);
-  //       this.setState({ error, isImagesLoading: false })
-  //     }
-  //     );
-  // }
-
   handleClick = (path) => {
-    // const { handleClick } = this.props;
-    // setBGImage && handleClick(path);
     this.props.history.push(`/gallery/${path}`)
   }
 
@@ -87,6 +62,7 @@ class App extends Component {
                 data={this.state.data}
                 isLoading={this.state.isLoading}
                 handleClick={this.handleClick}
+                error={this.state.error}
                 h1="FOTOGALÉRIA"
                 h2="KATEGÓRIE"
                 add="PRIDAT KATEGORIU"
@@ -97,14 +73,7 @@ class App extends Component {
             path="/gallery/:path" 
             component={props => <Gallery
               {...props}
-              // setBGImage={this.setBGImage}
-              // getImages={this.getImages}
-              // data={this.state.data}
-              // isLoading={this.state.isImagesLoading}
              />} />
-            {/* component={() => <Gallery />} /> */}
-          {/* <Route path="/:user" component={User}/> */}
-          {/* <Route component={NoMatch}/> */}
           <Route component={()=>{
               return (
                 <ErrorPage

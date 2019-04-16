@@ -4,7 +4,6 @@ import Image from './Image';
 // style
 import './card.scss';
 // import { Container, Row, Col } from 'react-bootstrap';
-import { Container, Grid, Row, Col } from 'react-flexbox-grid';
 
 class Card extends React.Component {
 
